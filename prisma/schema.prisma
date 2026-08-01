@@ -1,0 +1,41 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model UserProfile {
+  id              String         @id @default(cuid())
+  clerkUserId     String         @unique
+  email           String
+  targetExamDate  DateTime
+  dailyStudyHours Int            @default(5)
+  createdAt       DateTime       @default(now())
+  schedule        Schedule?
+}
+
+model Schedule {
+  id          String       @id @default(cuid())
+  userId      String       @unique
+  user        UserProfile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  totalDays   Int          @default(180)
+  startDate   DateTime     @default(now())
+  dailyTasks  DailyTask[]
+}
+
+model DailyTask {
+  id           String   @id @default(cuid())
+  scheduleId   String
+  schedule     Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  dayNumber    Int      // 1 to 180
+  date         DateTime
+  gateSubject  String
+  gateTopic    String
+  dsaTopic     String
+  dsaProblems  Int      @default(2)
+  isCompleted  Boolean  @default(false)
+  postDraft    String?  @db.Text
+}
