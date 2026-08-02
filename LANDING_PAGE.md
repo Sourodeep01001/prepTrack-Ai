@@ -28,20 +28,35 @@ This avoids showing a sign-in action to an already authenticated user and keeps 
 
 ## Visual system
 
-- **Ink:** `#122238` for high-contrast typography and dark surfaces
-- **Action blue:** `#2358f6` for primary actions and progress
-- **Momentum orange:** `#ff6b35` for energy, highlights, and streaks
-- **Warm canvas:** `#f6f2e9` to keep the page personal rather than corporate
-- **Typography:** Geist for interface copy and Georgia italics for editorial emphasis
+- **Forest ink:** `#102c25` for high-contrast typography
+- **Action green:** `#0f7a5a` for primary actions, progress, and brand emphasis
+- **Deep forest:** `#095941` for depth, gradients, and hover states
+- **Momentum lime:** `#84cc16` for streaks, progress highlights, and focus rings
+- **Soft mint:** `#dff4e8` for supporting cards and icon surfaces
+- **Sage canvas:** `#f1f6f0` for a fresh, calm page background
+- **Typography:** a fast system sans-serif stack for interface copy and Georgia italics for editorial emphasis
 - **Shape language:** soft 10–36 px radii, tactile shadows, and subtle rotated surfaces
 
-The dashboard preview uses CSS perspective and layered transforms rather than WebGL. This keeps the effect lightweight and removes the need for another runtime dependency.
+The palette is intentionally green-forward without becoming monochrome. Deep forest surfaces provide contrast, emerald communicates action, and lime adds small moments of energy. The dashboard preview uses CSS perspective and layered transforms rather than WebGL, keeping the effect lightweight and removing the need for another runtime dependency.
+
+## Button interaction system
+
+All landing-page buttons share visible hover, active, and keyboard-focus feedback:
+
+- **Primary buttons** lift and scale subtly, increase their green shadow, sweep a light highlight across the surface, and move the arrow icon forward.
+- **Secondary buttons** lift into a soft green shadow while their border and text become more saturated.
+- **Text buttons** move up slightly and reveal a lime underline from left to right.
+- **Dashboard preview action** changes from forest to emerald, gains elevation, and rotates the sparkle icon.
+- **Active states** compress buttons slightly so clicks feel tactile.
+- **Focus-visible states** use a lime focus ring for keyboard navigation.
+- **Reduced-motion mode** removes the decorative transitions while preserving clear color changes.
 
 ## Interaction and accessibility
 
 - Pointer movement subtly tilts the dashboard preview.
 - Floating cards use a slow vertical motion.
-- `prefers-reduced-motion` disables animation and transition effects.
+- Every button has an intentional hover and pressed state.
+- `prefers-reduced-motion` disables decorative animation and transition effects.
 - Navigation landmarks, descriptive labels, focusable CTAs, and semantic sections are preserved.
 - Decorative shapes are hidden from assistive technology.
 - The layout collapses to one column on tablets and phones.
@@ -62,4 +77,3 @@ The dashboard preview uses CSS perspective and layered transforms rather than We
 3. Add an Open Graph image for richer LinkedIn previews.
 4. Run accessibility and performance audits after deployment.
 5. Add analytics to measure CTA conversion and completed onboarding.
-
