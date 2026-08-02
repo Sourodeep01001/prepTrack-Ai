@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock, Target, Zap } from "lucide-react";
+import { Clock, Zap } from "lucide-react";
 
 interface Props {
   targetDate: Date;
@@ -19,11 +19,19 @@ export function CountdownBanner({
   const [daysLeft, setDaysLeft] = useState<number>(0);
 
   useEffect(() => {
-    const diff = Math.ceil(
-      (new Date(targetDate).getTime() - new Date().getTime()) /
-        (1000 * 60 * 60 * 24),
-    );
-    setDaysLeft(diff > 0 ? diff : 0);
+    const updateCountdown = () => {
+      const diff = Math.ceil(
+        (new Date(targetDate).getTime() - new Date().getTime()) /
+          (1000 * 60 * 60 * 24),
+      );
+      setDaysLeft(diff > 0 ? diff : 0);
+    };
+    const initialUpdate = window.setTimeout(updateCountdown, 0);
+    const dailyUpdate = window.setInterval(updateCountdown, 60 * 60 * 1000);
+    return () => {
+      window.clearTimeout(initialUpdate);
+      window.clearInterval(dailyUpdate);
+    };
   }, [targetDate]);
 
   return (
@@ -46,6 +54,9 @@ export function CountdownBanner({
             <p className="text-xs text-slate-300">Target Exam Window</p>
             <p className="font-semibold text-sm">
               6-Month Horizon ({totalDays} Days)
+            </p>
+            <p className="text-xs text-indigo-200">
+              {completedDays} days completed
             </p>
           </div>
           <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/40 px-3 py-1 flex gap-1 items-center">

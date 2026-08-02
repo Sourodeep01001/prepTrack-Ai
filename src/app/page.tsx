@@ -1,67 +1,210 @@
-import { redirect } from "next/navigation";
-import Image from "next/image";
+import Link from "next/link";
+import { Show, SignInButton } from "@clerk/nextjs";
+import {
+  ArrowRight,
+  BrainCircuit,
+  Check,
+  Code2,
+  Share2,
+  Sparkles,
+  Target,
+  TimerReset,
+  Zap,
+} from "lucide-react";
+import { HeroDashboardPreview } from "@/components/landing/HeroDashboardPreview";
+
+const steps = [
+  {
+    number: "01",
+    icon: Target,
+    title: "Set your daily targets",
+    copy: "Keep GATE preparation and coding practice in one calm, focused workspace.",
+  },
+  {
+    number: "02",
+    icon: Check,
+    title: "Finish the work",
+    copy: "Check off your learning goals and make every day of progress visible.",
+  },
+  {
+    number: "03",
+    icon: Share2,
+    title: "Share the milestone",
+    copy: "Turn completed tasks into a polished LinkedIn draft in one click.",
+  },
+];
+
+function DashboardLink({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      <Show when="signed-in">
+        <Link href="/dashboard" className="landing-primary-button">
+          {children}
+        </Link>
+      </Show>
+      <Show when="signed-out">
+        <SignInButton mode="modal">
+          <button type="button" className="landing-primary-button">
+            {children}
+          </button>
+        </SignInButton>
+      </Show>
+    </>
+  );
+}
 
 export default function Home() {
-  redirect("/dashboard");
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="landing-shell">
+      <nav className="landing-nav" aria-label="Main navigation">
+        <Link href="/" className="landing-brand" aria-label="PrepTrack AI home">
+          <span className="landing-brand-mark" aria-hidden="true">
+            P
+          </span>
+          <span>PrepTrack <strong>AI</strong></span>
+        </Link>
+
+        <div className="landing-nav-links">
+          <a href="#how-it-works">How it works</a>
+          <a href="#features">Features</a>
+        </div>
+
+        <div className="landing-nav-actions">
+          <Show when="signed-out">
+            <SignInButton mode="modal">
+              <button type="button" className="landing-text-button">Sign in</button>
+            </SignInButton>
+          </Show>
+          <Show when="signed-in">
+            <Link href="/dashboard" className="landing-text-button">Dashboard</Link>
+          </Show>
+          <DashboardLink>
+            Start tracking <ArrowRight size={16} aria-hidden="true" />
+          </DashboardLink>
+        </div>
+      </nav>
+
+      <section className="landing-hero">
+        <div className="landing-orb landing-orb-one" aria-hidden="true" />
+        <div className="landing-orb landing-orb-two" aria-hidden="true" />
+
+        <div className="landing-hero-copy">
+          <div className="landing-eyebrow">
+            <span><Sparkles size={14} /></span>
+            Built for ambitious students
+          </div>
+          <h1>
+            Small wins.<br />
+            <em>Serious momentum.</em>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p>
+            PrepTrack AI turns your daily GATE and coding goals into a clear
+            routine—and your progress into a LinkedIn story worth sharing.
           </p>
+          <div className="landing-hero-actions">
+            <DashboardLink>
+              Build today&apos;s streak <ArrowRight size={18} aria-hidden="true" />
+            </DashboardLink>
+            <a className="landing-secondary-button" href="#how-it-works">
+              See how it works
+            </a>
+          </div>
+          <div className="landing-proof">
+            <div className="landing-avatar-stack" aria-hidden="true">
+              <span>DS</span><span>AI</span><span>JS</span>
+            </div>
+            <p><strong>One focused system</strong><br />for study, code &amp; consistency</p>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <HeroDashboardPreview />
+      </section>
+
+      <section className="landing-ticker" aria-label="Product benefits">
+        <div><Zap size={17} /> Daily focus</div>
+        <span>•</span>
+        <div><Code2 size={17} /> Coding momentum</div>
+        <span>•</span>
+        <div><BrainCircuit size={17} /> AI-powered posts</div>
+        <span>•</span>
+        <div><TimerReset size={17} /> Consistent streaks</div>
+      </section>
+
+      <section id="how-it-works" className="landing-section landing-steps-section">
+        <div className="landing-section-heading">
+          <span className="landing-kicker">Your daily loop</span>
+          <h2>From plan to proof,<br />in three simple moves.</h2>
+          <p>No complicated productivity system. Just a focused loop that keeps you moving.</p>
         </div>
-      </main>
-    </div>
+        <div className="landing-steps-grid">
+          {steps.map((step) => {
+            const Icon = step.icon;
+            return (
+              <article className="landing-step-card" key={step.number}>
+                <span className="landing-step-number">{step.number}</span>
+                <div className="landing-step-icon"><Icon size={22} /></div>
+                <h3>{step.title}</h3>
+                <p>{step.copy}</p>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      <section id="features" className="landing-feature-wrap">
+        <div className="landing-feature-copy">
+          <span className="landing-kicker">Progress you can feel</span>
+          <h2>Your preparation deserves more than a checkbox.</h2>
+          <p>
+            See the day, the goal, and the bigger journey together. PrepTrack AI
+            gives every focused session a place in your story.
+          </p>
+          <ul>
+            <li><Check size={16} /> Separate GATE and coding goals</li>
+            <li><Check size={16} /> A visible exam countdown</li>
+            <li><Check size={16} /> LinkedIn drafts after completion</li>
+          </ul>
+        </div>
+        <div className="landing-streak-card">
+          <div className="landing-streak-top">
+            <span>Momentum</span>
+            <span className="landing-live-dot">Live</span>
+          </div>
+          <strong>12 day streak</strong>
+          <p>You showed up every day this week.</p>
+          <div className="landing-week">
+            {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, index) => (
+              <div key={`${day}-${index}`}>
+                <span className={index < 6 ? "is-done" : ""}>{index < 6 ? <Check size={14} /> : day}</span>
+                <small>{day}</small>
+              </div>
+            ))}
+          </div>
+          <div className="landing-quote">
+            <Sparkles size={18} />
+            <p>“Consistency is a skill. Every completed day is another rep.”</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="landing-cta-section">
+        <div className="landing-cta-glow" aria-hidden="true" />
+        <span className="landing-kicker">Start with today</span>
+        <h2>Your next milestone<br />is waiting.</h2>
+        <p>Plan the work. Finish the reps. Share the win.</p>
+        <DashboardLink>
+          Open PrepTrack AI <ArrowRight size={18} aria-hidden="true" />
+        </DashboardLink>
+      </section>
+
+      <footer className="landing-footer">
+        <Link href="/" className="landing-brand">
+          <span className="landing-brand-mark" aria-hidden="true">P</span>
+          <span>PrepTrack <strong>AI</strong></span>
+        </Link>
+        <p>Built for the days that build you.</p>
+        <span>© {new Date().getFullYear()} PrepTrack AI</span>
+      </footer>
+    </main>
   );
 }

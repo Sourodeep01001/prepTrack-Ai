@@ -12,11 +12,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Copy } from "lucide-react";
 
+const MOCK_TARGET_DATE = new Date("2027-02-07T00:00:00.000Z");
+
 export default function DashboardPage() {
   // Mock State (In production, replace with data fetched from backend)
-  const [targetDate] = useState(
-    new Date(Date.now() + 180 * 24 * 60 * 60 * 1000),
-  );
   const [completed, setCompleted] = useState(false);
   const [postDraft, setPostDraft] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,7 +49,7 @@ export default function DashboardPage() {
     <div className="max-w-5xl mx-auto p-6 space-y-8">
       {/* 1. Exam Countdown Header */}
       <CountdownBanner
-        targetDate={targetDate}
+        targetDate={MOCK_TARGET_DATE}
         completedDays={11}
         totalDays={180}
       />

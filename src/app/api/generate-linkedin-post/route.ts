@@ -30,7 +30,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ postDraft: response.text });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Post generation failed" },
       { status: 500 },
