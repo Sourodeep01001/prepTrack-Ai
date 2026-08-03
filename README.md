@@ -76,6 +76,8 @@ src/
 
 See [LANDING_PAGE.md](./LANDING_PAGE.md) for the landing-page design system, component decisions, interaction notes, responsive behavior, and suggested next steps.
 
+hello all
+
 ## Security notes
 
 - Never commit `.env.local` or production credentials.
