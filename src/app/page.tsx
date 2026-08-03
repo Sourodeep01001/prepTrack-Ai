@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Show, SignInButton } from "@clerk/nextjs";
+import Image from "next/image";
+import { Show, SignUpButton } from "@clerk/nextjs";
 import {
   ArrowRight,
   BrainCircuit,
@@ -12,6 +13,7 @@ import {
   Zap,
 } from "lucide-react";
 import { HeroDashboardPreview } from "@/components/landing/HeroDashboardPreview";
+import { LandingAccountMenu } from "@/components/landing/LandingAccountMenu";
 
 const steps = [
   {
@@ -43,11 +45,11 @@ function DashboardLink({ children }: { children: React.ReactNode }) {
         </Link>
       </Show>
       <Show when="signed-out">
-        <SignInButton mode="modal">
+        <SignUpButton mode="modal">
           <button type="button" className="landing-primary-button">
             {children}
           </button>
-        </SignInButton>
+        </SignUpButton>
       </Show>
     </>
   );
@@ -55,13 +57,15 @@ function DashboardLink({ children }: { children: React.ReactNode }) {
 
 export default function Home() {
   return (
-    <main className="landing-shell">
+    <main id="top" className="landing-shell">
       <nav className="landing-nav" aria-label="Main navigation">
         <Link href="/" className="landing-brand" aria-label="PrepTrack AI home">
           <span className="landing-brand-mark" aria-hidden="true">
             P
           </span>
-          <span>PrepTrack <strong>AI</strong></span>
+          <span>
+            PrepTrack <strong>AI</strong>
+          </span>
         </Link>
 
         <div className="landing-nav-links">
@@ -71,16 +75,30 @@ export default function Home() {
 
         <div className="landing-nav-actions">
           <Show when="signed-out">
-            <SignInButton mode="modal">
-              <button type="button" className="landing-text-button">Sign in</button>
-            </SignInButton>
+            <SignUpButton mode="modal">
+              <button
+                type="button"
+                className="landing-account-button"
+                aria-label="Create your PrepTrack AI account"
+                title="Create account or sign in"
+              >
+                <Image
+                  src="/user-login.png"
+                  alt=""
+                  width={1024}
+                  height={1024}
+                  className="landing-account-logo"
+                  priority
+                />
+              </button>
+            </SignUpButton>
           </Show>
           <Show when="signed-in">
-            <Link href="/dashboard" className="landing-text-button">Dashboard</Link>
+            <Link href="/dashboard" className="landing-primary-button">
+              Start tracking <ArrowRight size={16} aria-hidden="true" />
+            </Link>
+            <LandingAccountMenu />
           </Show>
-          <DashboardLink>
-            Start tracking <ArrowRight size={16} aria-hidden="true" />
-          </DashboardLink>
         </div>
       </nav>
 
@@ -90,11 +108,14 @@ export default function Home() {
 
         <div className="landing-hero-copy">
           <div className="landing-eyebrow">
-            <span><Sparkles size={14} /></span>
-            Built for ambitious students
+            <span>
+              <Sparkles size={18} />
+            </span>
+            😊 Built for ambitious students and developers 😊
           </div>
           <h1>
-            Small wins.<br />
+            Small wins.
+            <br />
             <em>Serious momentum.</em>
           </h1>
           <p>
@@ -103,7 +124,8 @@ export default function Home() {
           </p>
           <div className="landing-hero-actions">
             <DashboardLink>
-              Build today&apos;s streak <ArrowRight size={18} aria-hidden="true" />
+              Build today&apos;s streak{" "}
+              <ArrowRight size={18} aria-hidden="true" />
             </DashboardLink>
             <a className="landing-secondary-button" href="#how-it-works">
               See how it works
@@ -111,9 +133,15 @@ export default function Home() {
           </div>
           <div className="landing-proof">
             <div className="landing-avatar-stack" aria-hidden="true">
-              <span>DS</span><span>AI</span><span>JS</span>
+              <span>DS</span>
+              <span>AI</span>
+              <span>JS</span>
             </div>
-            <p><strong>One focused system</strong><br />for study, code &amp; consistency</p>
+            <p>
+              <strong>One focused system</strong>
+              <br />
+              for study, code &amp; consistency
+            </p>
           </div>
         </div>
 
@@ -121,20 +149,38 @@ export default function Home() {
       </section>
 
       <section className="landing-ticker" aria-label="Product benefits">
-        <div><Zap size={17} /> Daily focus</div>
+        <div>
+          <Zap size={17} /> Daily focus
+        </div>
         <span>•</span>
-        <div><Code2 size={17} /> Coding momentum</div>
+        <div>
+          <Code2 size={17} /> Coding momentum
+        </div>
         <span>•</span>
-        <div><BrainCircuit size={17} /> AI-powered posts</div>
+        <div>
+          <BrainCircuit size={17} /> AI-powered posts
+        </div>
         <span>•</span>
-        <div><TimerReset size={17} /> Consistent streaks</div>
+        <div>
+          <TimerReset size={17} /> Consistent streaks
+        </div>
       </section>
 
-      <section id="how-it-works" className="landing-section landing-steps-section">
+      <section
+        id="how-it-works"
+        className="landing-section landing-steps-section"
+      >
         <div className="landing-section-heading">
           <span className="landing-kicker">Your daily loop</span>
-          <h2>From plan to proof,<br />in three simple moves.</h2>
-          <p>No complicated productivity system. Just a focused loop that keeps you moving.</p>
+          <h2>
+            From plan to proof,
+            <br />
+            in three simple moves.
+          </h2>
+          <p>
+            No complicated productivity system. Just a focused loop that keeps
+            you moving.
+          </p>
         </div>
         <div className="landing-steps-grid">
           {steps.map((step) => {
@@ -142,7 +188,9 @@ export default function Home() {
             return (
               <article className="landing-step-card" key={step.number}>
                 <span className="landing-step-number">{step.number}</span>
-                <div className="landing-step-icon"><Icon size={22} /></div>
+                <div className="landing-step-icon">
+                  <Icon size={22} />
+                </div>
                 <h3>{step.title}</h3>
                 <p>{step.copy}</p>
               </article>
@@ -160,9 +208,15 @@ export default function Home() {
             gives every focused session a place in your story.
           </p>
           <ul>
-            <li><Check size={16} /> Separate GATE and coding goals</li>
-            <li><Check size={16} /> A visible exam countdown</li>
-            <li><Check size={16} /> LinkedIn drafts after completion</li>
+            <li>
+              <Check size={16} /> Separate GATE and coding goals
+            </li>
+            <li>
+              <Check size={16} /> A visible exam countdown
+            </li>
+            <li>
+              <Check size={16} /> LinkedIn drafts after completion
+            </li>
           </ul>
         </div>
         <div className="landing-streak-card">
@@ -173,9 +227,11 @@ export default function Home() {
           <strong>12 day streak</strong>
           <p>You showed up every day this week.</p>
           <div className="landing-week">
-            {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, index) => (
+            {["M", "T", "W", "T", "F", "S", "S"].map((day, index) => (
               <div key={`${day}-${index}`}>
-                <span className={index < 6 ? "is-done" : ""}>{index < 6 ? <Check size={14} /> : day}</span>
+                <span className={index < 6 ? "is-done" : ""}>
+                  {index < 6 ? <Check size={14} /> : day}
+                </span>
                 <small>{day}</small>
               </div>
             ))}
@@ -190,7 +246,11 @@ export default function Home() {
       <section className="landing-cta-section">
         <div className="landing-cta-glow" aria-hidden="true" />
         <span className="landing-kicker">Start with today</span>
-        <h2>Your next milestone<br />is waiting.</h2>
+        <h2>
+          Your next milestone
+          <br />
+          is waiting.
+        </h2>
         <p>Plan the work. Finish the reps. Share the win.</p>
         <DashboardLink>
           Open PrepTrack AI <ArrowRight size={18} aria-hidden="true" />
@@ -198,9 +258,13 @@ export default function Home() {
       </section>
 
       <footer className="landing-footer">
-        <Link href="/" className="landing-brand">
-          <span className="landing-brand-mark" aria-hidden="true">P</span>
-          <span>PrepTrack <strong>AI</strong></span>
+        <Link href="#top" className="landing-brand" aria-label="Back to top">
+          <span className="landing-brand-mark" aria-hidden="true">
+            P
+          </span>
+          <span>
+            PrepTrack <strong>AI</strong>
+          </span>
         </Link>
         <p>Built for the days that build you.</p>
         <span>© {new Date().getFullYear()} PrepTrack AI</span>

@@ -8,7 +8,7 @@ Introduce the product before authentication, communicate the daily workflow quic
 
 ## Page structure
 
-1. **Navigation** — brand, section links, sign-in, and primary action.
+1. **Navigation** — brand, section links, conditional sign-up/account control, and the authenticated dashboard action.
 2. **Hero** — outcome-led message with an interactive 3D dashboard preview.
 3. **Benefit ticker** — a compact summary of the product loop.
 4. **How it works** — daily targets, completion, and LinkedIn publishing.
@@ -18,13 +18,15 @@ Introduce the product before authentication, communicate the daily workflow quic
 
 ## Authentication behavior
 
-The landing page uses Clerk's `SignedIn`, `SignedOut`, and `SignInButton` components.
+The landing page uses Clerk's `Show`, `SignUpButton`, `useUser`, and `useClerk` APIs.
 
-- Signed-out users open Clerk's sign-in modal from each primary CTA.
-- Signed-in users go directly to `/dashboard`.
+- Signed-out visitors see the supplied human-profile logo in the top-right navigation. It opens Clerk's sign-up modal, which also provides a sign-in route for returning users.
+- Signed-out visitors who use a primary CTA also enter the Clerk sign-up flow.
+- Signed-in users see both the **Start tracking** dashboard action and their Clerk profile image. Google/Gmail sign-ins use the user's synced Google profile photo when Clerk provides it; accounts without an image fall back to their initials.
+- Clicking the signed-in profile image opens a branded floating summary with the user's Clerk name, primary email, and profile image. **Manage account** opens Clerk's secure profile modal where supported email addresses, passwords, security settings, and profile information can be maintained; **Sign out** ends the current session.
 - `/dashboard` remains protected by `src/middleware.ts`.
 
-This avoids showing a sign-in action to an already authenticated user and keeps the public homepage accessible.
+The landing page remains public for everyone. Existing account ownership cannot be safely inferred while a visitor is signed out, so the sign-up modal deliberately includes Clerk's normal sign-in path for returning users. Once Clerk restores a valid session, the navigation switches automatically to the authenticated controls.
 
 ## Visual system
 
@@ -46,6 +48,7 @@ All landing-page buttons share visible hover, active, and keyboard-focus feedbac
 - **Primary buttons** lift and scale subtly, increase their green shadow, sweep a light highlight across the surface, and move the arrow icon forward.
 - **Secondary buttons** lift into a soft green shadow while their border and text become more saturated.
 - **Text buttons** move up slightly and reveal a lime underline from left to right.
+- **Account buttons** lift with a soft green shadow and animate the profile icon or authenticated avatar.
 - **Dashboard preview action** changes from forest to emerald, gains elevation, and rotates the sparkle icon.
 - **Active states** compress buttons slightly so clicks feel tactile.
 - **Focus-visible states** use a lime focus ring for keyboard navigation.
@@ -65,7 +68,9 @@ All landing-page buttons share visible hover, active, and keyboard-focus feedbac
 
 - `src/app/page.tsx` — landing-page content and Clerk-aware actions
 - `src/components/landing/HeroDashboardPreview.tsx` — isolated client-side 3D interaction
+- `src/components/landing/LandingAccountMenu.tsx` — account summary popover and Clerk profile actions
 - `src/app/globals.css` — landing visual system, animation, and breakpoints
+- `public/user-login.png` — resized human-profile logo used for signed-out visitors; the circular viewport crops away its surrounding checkerboard
 - `src/app/layout.tsx` — product metadata for search and sharing
 - `README.md` — project setup and architecture
 - `LANDING_PAGE.md` — this implementation record
